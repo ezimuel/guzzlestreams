@@ -1,6 +1,6 @@
 {
-    "name": "guzzlehttp/streams",
-    "description": "Provides a simple abstraction over streams of data",
+    "name": "ezimuel/guzzlestreams",
+    "description": "Fork of guzzle/streams (abandoned) to be used with elasticsearch-php",
     "homepage": "http://guzzlephp.org/",
     "keywords": ["stream", "guzzle"],
     "license": "MIT",

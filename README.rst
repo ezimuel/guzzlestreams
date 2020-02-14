@@ -2,6 +2,8 @@
 Guzzle Streams
 ==============
 
+**Note:** this is a fork of the original project since it was abandoned.
+
 Provides a simple abstraction over streams of data.
 
 This library is used in `Guzzle 5 <https://github.com/guzzle/guzzle>`_, and is
