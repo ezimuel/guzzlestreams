@@ -3,8 +3,9 @@ namespace GuzzleHttp\Tests\Stream;
 
 use GuzzleHttp\Stream\BufferStream;
 use GuzzleHttp\Stream\DroppingStream;
+use PHPUnit\Framework\TestCase;
 
-class DroppingStreamTest extends \PHPUnit_Framework_TestCase
+class DroppingStreamTest extends TestCase
 {
     public function testBeginsDroppingWhenSizeExceeded()
     {

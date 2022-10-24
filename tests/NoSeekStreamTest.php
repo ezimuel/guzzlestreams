@@ -3,12 +3,13 @@ namespace GuzzleHttp\Tests\Stream;
 
 use GuzzleHttp\Stream\Stream;
 use GuzzleHttp\Stream\NoSeekStream;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers GuzzleHttp\Stream\NoSeekStream
  * @covers GuzzleHttp\Stream\StreamDecoratorTrait
  */
-class NoSeekStreamTest extends \PHPUnit_Framework_TestCase
+class NoSeekStreamTest extends TestCase
 {
     public function testCannotSeek()
     {

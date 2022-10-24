@@ -2,12 +2,13 @@
 namespace GuzzleHttp\Tests\Stream;
 
 use GuzzleHttp\Stream\LazyOpenStream;
+use PHPUnit\Framework\TestCase;
 
-class LazyOpenStreamTest extends \PHPUnit_Framework_TestCase
+class LazyOpenStreamTest extends TestCase
 {
     private $fname;
 
-    public function setup()
+    public function setup(): void
     {
         $this->fname = tempnam('/tmp', 'tfile');
 
@@ -16,7 +17,7 @@ class LazyOpenStreamTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if (file_exists($this->fname)) {
             unlink($this->fname);
@@ -27,7 +28,7 @@ class LazyOpenStreamTest extends \PHPUnit_Framework_TestCase
     {
         $l = new LazyOpenStream($this->fname, 'w+');
         $l->write('foo');
-        $this->assertInternalType('array', $l->getMetadata());
+        $this->assertIsArray($l->getMetadata());
         $this->assertFileExists($this->fname);
         $this->assertEquals('foo', file_get_contents($this->fname));
         $this->assertEquals('foo', (string) $l);
@@ -47,7 +48,7 @@ class LazyOpenStreamTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('oo', $l->getContents());
         $this->assertEquals('foo', (string) $l);
         $this->assertEquals(3, $l->getSize());
-        $this->assertInternalType('array', $l->getMetadata());
+        $this->assertIsArray($l->getMetadata());
         $l->close();
     }
 
@@ -56,7 +57,7 @@ class LazyOpenStreamTest extends \PHPUnit_Framework_TestCase
         file_put_contents($this->fname, 'foo');
         $l = new LazyOpenStream($this->fname, 'r');
         $r = $l->detach();
-        $this->assertInternalType('resource', $r);
+        $this->assertIsResource($r);
         fseek($r, 0);
         $this->assertEquals('foo', stream_get_contents($r));
         fclose($r);

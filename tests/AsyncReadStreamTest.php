@@ -5,27 +5,26 @@ use GuzzleHttp\Stream\AsyncReadStream;
 use GuzzleHttp\Stream\BufferStream;
 use GuzzleHttp\Stream\FnStream;
 use GuzzleHttp\Stream\Stream;
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 
-class AsyncReadStreamTest extends \PHPUnit_Framework_TestCase
+class AsyncReadStreamTest extends TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Buffer must be readable and writable
-     */
     public function testValidatesReadableBuffer()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectErrorMessage('Buffer must be readable and writable');
         new AsyncReadStream(FnStream::decorate(
             Stream::factory(),
             ['isReadable' => function () { return false; }]
         ));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Buffer must be readable and writable
-     */
     public function testValidatesWritableBuffer()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectErrorMessage('Buffer must be readable and writable');
         new AsyncReadStream(FnStream::decorate(
             Stream::factory(),
             ['isWritable' => function () { return false; }]
@@ -37,24 +36,22 @@ class AsyncReadStreamTest extends \PHPUnit_Framework_TestCase
         $a = new AsyncReadStream(Stream::factory(), [
             'drain' => function() {}
         ]);
-        $this->assertNull($this->readAttribute($a, 'drain'));
+        $drain = new ReflectionProperty(AsyncReadStream::class, 'drain');
+        $drain->setAccessible(true);
+        $this->assertNull($drain->getValue($a));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage pump must be callable
-     */
     public function testValidatesPumpIsCallable()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectErrorMessage('pump must be callable');
         new AsyncReadStream(new BufferStream(), ['pump' => true]);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage drain must be callable
-     */
     public function testValidatesDrainIsCallable()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectErrorMessage('drain must be callable');
         new AsyncReadStream(new BufferStream(), ['drain' => true]);
     }
 
@@ -66,9 +63,16 @@ class AsyncReadStreamTest extends \PHPUnit_Framework_TestCase
             'drain' => function () {},
             'pump'  => function () {},
         ]);
-        $this->assertSame($buffer, $this->readAttribute($a, 'stream'));
-        $this->assertTrue(is_callable($this->readAttribute($a, 'drain')));
-        $this->assertTrue(is_callable($this->readAttribute($a, 'pump')));
+        $size = new ReflectionProperty(AsyncReadStream::class, 'size');
+        $size->setAccessible(true);
+        $drain = new ReflectionProperty(AsyncReadStream::class, 'drain');
+        $drain->setAccessible(true);
+        $pump = new ReflectionProperty(AsyncReadStream::class, 'pump');
+        $pump->setAccessible(true);
+        
+        $this->assertSame($buffer, $a->stream);
+        $this->assertTrue(is_callable($drain->getValue($a)));
+        $this->assertTrue(is_callable($pump->getValue($a)));
         $this->assertTrue($a->isReadable());
         $this->assertFalse($a->isSeekable());
         $this->assertFalse($a->isWritable());
@@ -120,14 +124,17 @@ class AsyncReadStreamTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(6, $buffer->getSize());
         $this->assertEquals(0, $called);
 
+        $needsDrain = new ReflectionProperty(AsyncReadStream::class, 'needsDrain');
+        $needsDrain->setAccessible(true);
+
         $a->read(3);
-        $this->assertTrue($this->readAttribute($a, 'needsDrain'));
+        $this->assertTrue($needsDrain->getValue($a));
         $this->assertEquals(3, $buffer->getSize());
         $this->assertEquals(0, $called);
 
         $a->read(3);
         $this->assertEquals(0, $buffer->getSize());
-        $this->assertFalse($this->readAttribute($a, 'needsDrain'));
+        $this->assertFalse($needsDrain->getValue($a));
         $this->assertEquals(1, $called);
     }
 

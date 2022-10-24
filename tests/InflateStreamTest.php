@@ -3,8 +3,9 @@ namespace GuzzleHttp\Tests\Stream;
 
 use GuzzleHttp\Stream\InflateStream;
 use GuzzleHttp\Stream\Stream;
+use PHPUnit\Framework\TestCase;
 
-class InflateStreamtest extends \PHPUnit_Framework_TestCase
+class InflateStreamtest extends TestCase
 {
     public function testInflatesStreams()
     {

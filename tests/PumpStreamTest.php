@@ -1,11 +1,13 @@
 <?php
 namespace GuzzleHttp\Tests\Stream;
 
+use GuzzleHttp\Stream\Exception\CannotAttachException;
 use GuzzleHttp\Stream\LimitStream;
 use GuzzleHttp\Stream\PumpStream;
 use GuzzleHttp\Stream\Stream;
+use PHPUnit\Framework\TestCase;
 
-class PumpStreamTest extends \PHPUnit_Framework_TestCase
+class PumpStreamTest extends TestCase
 {
     public function testHasMetadataAndSize()
     {
@@ -66,11 +68,9 @@ class PumpStreamTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($p->eof());
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Stream\Exception\CannotAttachException
-     */
     public function testCannotAttach()
     {
+        $this->expectException(CannotAttachException::class);
         $p = Stream::factory(function () {});
         $p->attach('a');
     }
