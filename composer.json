@@ -20,6 +20,9 @@
     "autoload": {
         "psr-4": { "GuzzleHttp\\Stream\\": "src/" }
     },
+    "scripts": {
+        "test": "make test"
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "3.0-dev"

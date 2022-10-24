@@ -41,4 +41,4 @@ jobs:
 
     - name: Unit tests
       run: |
-        vendor/bin/phpunit
+        composer run-script test
