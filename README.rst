@@ -4,7 +4,7 @@ Guzzle Streams
 
 **Note:** this is a fork of the original project since it was abandoned.
 
-The main goal of this fork is to offer support for [elasticsearch-php](https://github.com/elastic/elasticsearch-php)
+The main goal of this fork is to offer support for `elastic/elasticsearch-php <https://github.com/elastic/elasticsearch-php>`_
 version 7.x.
 
 ## Here the original README
