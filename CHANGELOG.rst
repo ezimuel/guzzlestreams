@@ -2,6 +2,13 @@
 Changelog
 =========
 
+4.0.0 (2024-06-19)
+------------------
+
+* Changed the minimum PHP version to 7.4+
+* Created .gitattributes to avoid installing test folder
+  https://github.com/ezimuel/guzzlestreams/pull/2
+
 3.0.0 (2014-10-12)
 ------------------
 
