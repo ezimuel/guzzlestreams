@@ -4,6 +4,11 @@ Guzzle Streams
 
 **Note:** this is a fork of the original project since it was abandoned.
 
+The main goal of this fork is to offer support for [elasticsearch-php](https://github.com/elastic/elasticsearch-php)
+version 7.x.
+
+## Here the original README
+
 Provides a simple abstraction over streams of data.
 
 This library is used in `Guzzle 5 <https://github.com/guzzle/guzzle>`_, and is
